@@ -1,0 +1,85 @@
+﻿@model ACEDrivingSchool2.Models.Booking
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Home Page";
+    if (this.User.Identity.IsAuthenticated)
+    {
+        if (this.User.IsInRole("Student"))
+        {
+            Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+        }
+        if (this.User.IsInRole("Admin"))
+        {
+            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        if (this.User.IsInRole("Instructor"))
+        {
+            Layout = "~/Views/Shared/_LayoutInstructor.cshtml";
+        }
+        if (this.User.IsInRole("Receptionist"))
+        {
+            Layout = "~/Views/Shared/_LayoutReceptionist.cshtml";
+        }
+    }
+
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>cancel booking</h2>
+
+<h3>Are you sure you want to cancel this booking?</h3>
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTimeBooked)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTimeBooked)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Cancel", "ListBookings")
+        </div>
+    }
+</div>

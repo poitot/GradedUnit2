@@ -1,0 +1,48 @@
+﻿@model List<ACEDrivingSchool2.Models.Lesson>
+
+<br />
+<br />
+<p>Lesson Basket</p>
+
+@if (Model != null && Model.Count != 0)
+{
+    <table style="width: 100%">
+        <tr>
+            <th>
+                @Html.Label("Date")
+            </th>
+            <th>
+                @Html.Label("Time")
+            </th>
+            <th>
+                @Html.Label("Duration")
+            </th>
+            <th>
+                @Html.Label("Type")
+            </th>
+            <th>
+                @Html.Label("Cost")
+            </th>
+        </tr>
+        @foreach(var l in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Label(l.Start.ToShortDateString())
+                </td>
+                <td>
+                    @Html.Label(l.Start.ToShortTimeString())
+                </td>
+                <td>
+                    @Html.Label(((l.End.Hour - l.Start.Hour).ToString()) + " Hour(s)")
+                </td>
+                <td>
+                    @Html.Label(l.Type)
+                </td>
+                <td>
+                    @Html.Label("£" + l.LessonCost.ToString())
+                </td>
+            </tr>
+        }
+    </table>
+}

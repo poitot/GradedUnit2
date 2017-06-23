@@ -1,0 +1,58 @@
+﻿@model ACEDrivingSchool2.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+}
+
+@{
+    if (this.User.Identity.IsAuthenticated)
+    {
+        if (this.User.IsInRole("Student"))
+        {
+            Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+        }
+        if (this.User.IsInRole("Admin"))
+        {
+            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        if (this.User.IsInRole("Instructor"))
+        {
+            Layout = "~/Views/Shared/_LayoutInstructor.cshtml";
+        }
+        if (this.User.IsInRole("Receptionist"))
+        {
+            Layout = "~/Views/Shared/_LayoutReceptionist.cshtml";
+        }
+    }
+
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Update Account Details</dt>
+        <dd>
+            @Html.ActionLink("Edit Details", "EditDetails")
+        </dd>
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+    </dl>
+</div>

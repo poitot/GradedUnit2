@@ -1,0 +1,92 @@
+﻿@model ACEDrivingSchool2.Models.LessonViewModels.LessonViewModel
+@layout ~/Views/Shared/_NoNavbar.cshtml
+
+<head runat="server">
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+</head>
+
+<script type="text/javascript">
+        function close(result) {
+            if (parent && parent.DayPilot && parent.DayPilot.ModalStatic) {
+                parent.DayPilot.ModalStatic.close(result);
+            }
+
+            $("btnSubmit").submit(function () {
+                var f = $("btnSubmit");
+                $.post(f.action, f.serialize(), function (result) {
+                    close(eval(result));
+                });
+                return false;
+            });
+        }
+</script>
+@if (ViewBag.ReloadLesson != null && ViewBag.ReloadLesson)
+{
+<script>
+    parent.location.reload();
+    window.close();
+    
+</script>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="padding-top:50px">
+        <h4>Lesson</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @if (Model != null && Model.Start != null)
+        {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Start, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Label(Model.Start.ToShortDateString(), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.Label(Model.Start.ToShortTimeString(), new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        }
+
+        @if (Model != null && Model.Start != null && Model.End != null)
+        {
+        <div class="form-group">
+            @Html.Label("Duration", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Label((Model.End.Hour - Model.Start.Hour).ToString() + "Hours(s)", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        }
+
+        @if (Model != null && Model.LessonCost != 0)
+        {
+        <div class="form-group">
+            @Html.Label("Cost", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Label("£" + Model.LessonCost.ToString(), new { htmlAttributes = new { @class = "form-control" } })
+                Price based on lesson
+            </div>
+        </div>
+        }
+
+        <div class="form-group">
+            @Html.Label("Driving Test", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.Test, new { htmlAttributes = new { @class = "form-control" } })
+                Driving Tests Cost £40 and may only be booked for an hour
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btnSubmit" />
+                <a href="javascript:close()">Close</a>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

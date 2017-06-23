@@ -1,0 +1,119 @@
+﻿@model  ACEDrivingSchool2.Models.BookingsViewModels.MakeBookingViewModel
+@using DayPilot
+@layout ~/Views/Shared/_LayoutStudent.cshtml
+@using DayPilot.Web.Mvc.Events.Calendar
+@using ACEDrivingSchool2.Models;
+
+
+
+@{
+    if (this.User.Identity.IsAuthenticated)
+    {
+        if (this.User.IsInRole("Student"))
+        {
+            Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+        }
+        if (this.User.IsInRole("Admin"))
+        {
+            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        if (this.User.IsInRole("Instructor"))
+        {
+            Layout = "~/Views/Shared/_LayoutInstructor.cshtml";
+        }
+        if (this.User.IsInRole("Receptionist"))
+        {
+            Layout = "~/Views/Shared/_LayoutReceptionist.cshtml";
+        }
+    }
+
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+
+
+<div id="nav"></div>
+<script src="@Url.Content("~/Scripts/DayPilot/daypilot-all.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+
+
+
+
+
+<script type="text/javascript">
+    function create(start, end) {
+        var m = new DayPilot.Modal();
+        m.closed = function () {
+            if (this.result == "OK") {
+                dp.commandCallBack('refresh');
+            }
+            dp.clearSelection();
+        };
+        m.showUrl('@Url.Action("Create", "Lessons")?Start=' + start + '&End=' + end);
+        
+        
+    }
+</script>
+
+    @using (Html.BeginForm("MakeBooking", "Bookings", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken();
+    <div id="nav" style="align-content: space-around "cal"">
+        @Html.DayPilotNavigator("dpn", new DayPilotNavigatorConfig
+   {
+       BoundDayPilot = "dp",
+       ShowMonths = 3,
+       SkipMonths = 3
+   })
+        </div>
+        <div id="cal">
+        @Html.DayPilotCalendar("dp", new DayPilotCalendarConfig
+   {
+       BackendUrl = Url.Action("Backend", "Calendar"),
+       ViewType = DayPilot.Web.Mvc.Enums.Calendar.ViewType.Week,
+       TimeRangeSelectedHandling = TimeRangeSelectedHandlingType.JavaScript,
+       TimeRangeSelectedJavaScript = "create(start, end)",
+       CellDuration = 60,
+       EventDeleteHandling = EventDeleteHandlingType.CallBack,
+
+   })
+            </div>
+        if (User.IsInRole("Receptionist"))
+        {
+            <br />
+            <br />
+            <div>
+                @Html.Label("Student Id")
+                @Html.EditorFor(model => model.StudentId)
+            </div>
+        }
+        <div>
+            @if ((Session["Booking"]) != null)
+            {
+                @Html.Partial("~/Views/Lessons/List.cshtml", (Session["Booking"] as ACEDrivingSchool2.Models.Booking).Lessons)
+            }
+        </div>
+
+
+
+<button type="submit">Book Lessons</button>
+}
+
+
+    @if (ViewBag.Reload != null && ViewBag.Reload == true)
+    {
+        <script type="text/javascript">
+        location.reload();
+        </script>
+    }
+    else
+    {
+        return;
+    }
+    return;
+
+
+

@@ -1,0 +1,71 @@
+﻿@model ACEDrivingSchool2.Models.BookingsViewModels.BookingListViewModel
+
+
+
+@if (!User.IsInRole("Instructor"))
+                
+{
+<table class="table">
+    <tr>
+        <td>
+
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.Id)
+            <br />
+            @Html.DisplayFor(model => model.Id)
+        </td>
+        @if (User.IsInRole("Admin"))
+        {
+            <td>
+                @Html.DisplayNameFor(model => model.StudentName)
+                <br />
+                @Html.DisplayFor(model => model.StudentName)
+            </td>
+        }
+        <td>
+            @Html.DisplayNameFor(model => model.TotalCost)
+            <br />
+            @Html.Label("£" + Model.TotalCost.ToString())
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.DateBooked)
+            <br />
+            @Html.Label(Model.DateBooked.ToShortDateString())
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.Status)
+            <br />
+            @Html.DisplayFor(model => model.Status)
+        </td>
+        <td>
+            <br />
+            @Html.ActionLink("Cancel", "Cancel", "Bookings", new { id = Model.Id }, null)
+            <br />
+            @if (Model.Status == "UnPaid")
+{
+    if (!User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Make Payment", "Payment", new { cost = Model.TotalCost, id = Model.Id })
+    }
+
+            }
+            <br />
+            <br />
+
+        </td>
+
+        <th></th>
+    </tr>
+
+
+
+</table>
+}
+else
+{
+    <p>Click on View Lessons To View Lessons Currently Assigned To You.</p>
+}
+<div id="BookingLessons-@Model.Id">
+    @Ajax.ActionLink("View Lessons", "BookingLessonsById", "Bookings", new { id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "BookingLessons-" + Model.Id }, new { @class = "btn btn-default" })
+</div>

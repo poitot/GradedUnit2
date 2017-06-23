@@ -1,0 +1,60 @@
+﻿@model ACEDrivingSchool2.Models.ListBookingsViewModel
+
+@{ 
+    ViewBag.Title = "Your Bookings";
+}
+
+@{
+    ViewBag.Title = "Home Page";
+    if (this.User.Identity.IsAuthenticated)
+    {
+        if (this.User.IsInRole("Student"))
+        {
+            Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+        }
+        if (this.User.IsInRole("Admin"))
+        {
+            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        if (this.User.IsInRole("Instructor"))
+        {
+            Layout = "~/Views/Shared/_LayoutInstructor.cshtml";
+        }
+        if (this.User.IsInRole("Receptionist"))
+        {
+            Layout = "~/Views/Shared/_LayoutReceptionist.cshtml";
+        }
+    }
+
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/ajax")
+    }
+
+<h1>Your Bookings</h1>
+
+<div class="row">
+    @if (User.IsInRole("Receptionist"))
+    {
+        using (Html.BeginForm(FormMethod.Post))
+        {
+            @Html.TextBox("studentId")
+            <button type="submit">Find students bookings</button>
+        }
+
+
+    }
+    @if (Model != null && Model.Bookings.Any())
+    {
+        @Html.DisplayFor(b => b.Bookings)
+    }
+    else
+    {
+        <div class="col-md-4 col-sm-6 col-xs-12">You have not made any bookings</div>
+    }
+</div>

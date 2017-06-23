@@ -1,0 +1,70 @@
+﻿@model ACEDrivingSchool2.Models.BookingsViewModels.BookingListViewModel
+
+@if (Model != null)
+{
+<table style="width: 100%">
+    @foreach (var l in Model.Lessons)
+    {
+
+        <tr style="padding-right: 100px">
+            <td>
+                @Html.Label("Date")
+                <br />
+                @Html.Label(l.Start.ToShortDateString())
+            </td>
+            <td>
+                @Html.Label("Time")
+                <br />
+                @Html.Label(l.Start.ToShortTimeString())
+            </td>
+            <td>
+                @Html.Label("Duration")
+                <br />
+                @Html.Label(l.Duration.ToString() + " Hour(s)")
+            </td>
+            @if (User.IsInRole("Student") || User.IsInRole("Admin"))
+            {
+                <td>
+                    @Html.Label("Instructor Name")
+                    <br />
+                    @if (l.InstructorName != null)
+                    {
+                        @Html.Label(l.InstructorName)
+                    }
+
+                </td>
+            }
+
+            @if (User.IsInRole("Instructor") || User.IsInRole("Admin"))
+            {
+                <td>
+                    @Html.Label("Student Name")
+                    <br />
+                    @if (l.StudentName != null)
+                    {
+                        @Html.Label(l.StudentName)
+                    }
+                </td>
+            }
+            <td>
+                @Html.Label("Type")
+                <br />
+                @Html.Label(l.Type)
+            </td>
+
+            <td>
+                @Html.Label("Cost")
+                <br />
+                @Html.Label("£" + l.LessonCost.ToString())
+            </td>
+
+            <th></th>
+        </tr>
+
+    }
+</table>
+}
+else
+{
+    <h3>No bookings have been assigned to you yet</h3>
+}

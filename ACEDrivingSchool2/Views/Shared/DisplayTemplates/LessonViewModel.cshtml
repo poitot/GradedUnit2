@@ -1,0 +1,40 @@
+﻿@*@model ACEDrivingSchool2.Models.LessonViewModels.LessonViewModel
+
+<table style="width: 100%">
+    @foreach (var l in Model.Lessons)
+    {
+        <tr>
+            <td>
+                @Html.Label("Date")
+                <br />
+                @Html.Label(l.Start.ToShortDateString())
+            </td>
+            <td>
+                @Html.Label("Time")
+                <br />
+                @Html.Label(l.Start.ToShortTimeString())
+            </td>
+            <td>
+                @Html.Label("Duration")
+                <br />
+                @Html.Label(l.Duration.ToString())
+            </td>
+            <td>
+                @Html.Label("Instructor Name")
+                <br />
+                @if (l.InstructorName != null)
+                {
+                    @Html.Label(l.InstructorName)
+                }
+
+            </td>
+            <td>
+                @Html.Label("Type")
+                <br />
+                @Html.Label(l.Type)
+            </td>
+
+            <th></th>
+        </tr>
+    }
+</table>*@
