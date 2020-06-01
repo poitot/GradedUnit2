@@ -28,4 +28,26 @@ textarea {
     margin-top: 10px;
 }
 
+.bg-img {
+    background-image: url("Images/jumbo-bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #40b8ff;
+    padding-top: 200px;
+    margin-top: 50px;
+}
 
+.navigator_default_main {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    overflow: hidden;
+    margin-right: 17px;
+}
+
+.calendar_default_scroll_up {
+    visibility: hidden;
+}
+
+.modal_default_main {
+    margin-top: 20px;
+}

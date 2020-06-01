@@ -52,8 +52,10 @@
             }
             dp.clearSelection();
         };
+        m.top = 150;
+        m.height = 500;
         m.showUrl('@Url.Action("Create", "Lessons")?Start=' + start + '&End=' + end);
-        
+        m.opener().stretch();
         
     }
 </script>
@@ -61,12 +63,12 @@
     @using (Html.BeginForm("MakeBooking", "Bookings", FormMethod.Post))
     {
         @Html.AntiForgeryToken();
-    <div id="nav" style="align-content: space-around "cal"">
+    <div id="nav" style="align-content: space-around "cal" margin-top: 50px">
         @Html.DayPilotNavigator("dpn", new DayPilotNavigatorConfig
    {
        BoundDayPilot = "dp",
-       ShowMonths = 3,
-       SkipMonths = 3
+       ShowMonths = 1,
+       SkipMonths = 1
    })
         </div>
         <div id="cal">
@@ -78,7 +80,15 @@
        TimeRangeSelectedJavaScript = "create(start, end)",
        CellDuration = 60,
        EventDeleteHandling = EventDeleteHandlingType.CallBack,
+       HeaderHeightAutoFit = true,
+       AutoRefreshEnabled = true,
+       CellHeight = 50,
+       BusinessBeginsHour = 9,
+       BusinessEndsHour = 20,
+       DayBeginsHour = 9,
+       DayEndsHour = 21
 
+       
    })
             </div>
         if (User.IsInRole("Receptionist"))
@@ -99,7 +109,7 @@
 
 
 
-<button type="submit">Book Lessons</button>
+<button type="submit" style="margin-top:20px">Book Lessons</button>
 }
 
 

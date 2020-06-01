@@ -137,23 +137,24 @@ namespace ACEDrivingSchool2.Controllers
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     //geereates a confirmation code for the user account created
-                    //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = Url.Action(
-                    //   "ConfirmEmail", "Account",
-                    //   new { userId = user.Id, code = code },
-                    //   protocol: Request.Url.Scheme);
+                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action(
+                       "ConfirmEmail", "Account",
+                       new { userId = user.Id, code = code },
+                       protocol: Request.Url.Scheme);
 
+                    await ConfirmEmail(user.Id, code);
                     ////sends an email to the user with a link to activate their account
                     //await UserManager.SendEmailAsync(user.Id,
-                    //   "Confirm your account",
-                    //   "Please confirm your account by clicking this link: <a href=\""
-                    //                                   + callbackUrl + "\">link</a>");
+                      // "Confirm your account",
+                      // "Please confirm your account by clicking this link: <a href=\""
+                      //                                 + callbackUrl + "\">link</a>");
 
                     ////assigns the user a role (Student by default but an admin may pass in a role to create a new user of any role)
                     //await UserManager.AddToRoleAsync(user.Id, model.Role);
 
                     //returns a message to the user telling them a confirmation email has been sent to their email
-                    this.AddNotification("A confirmation email has been sent to your email address, you must use the confirmation link before you can make a booking", NotificationType.SUCCESS);
+                    //this.AddNotification("A confirmation email has been sent to your email address, you must use the confirmation link before you can make a booking", NotificationType.SUCCESS);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

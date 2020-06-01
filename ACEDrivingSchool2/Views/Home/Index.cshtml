@@ -23,13 +23,19 @@
     else
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
+        var msg = "<p>You are not currently signed in, please login or register an account to make a booking</p>";
     }
 
 }
 
-<div class="jumbotron">
-    <h1>ACE Driving School</h1>
-    <p class="lead">Welcome To Ace driving School, We Offer Driving Lessons And Tests from 9AM - 8PM, Monday - Sunday</p>
-    
-</div>
+    <div class="jumbotron bg-img">
+        <h1>ACE Driving School</h1>
+        <p class="lead">Welcome to ACE driving School, we offer car driving Lessons and Tests from 9AM - 8PM, Monday - Sunday</p>
+        @{ 
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                @Html.Raw("<p>You are not currently signed in, please login or register an account to make a booking</p>");
+            }
+        }
+    </div>
 

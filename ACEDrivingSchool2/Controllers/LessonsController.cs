@@ -42,7 +42,7 @@ namespace ACEDrivingSchool2.Controllers
             }
 
             //validates the timeslot is during opening hours
-            if (!(start.Hour >= 9 && end.Hour <= 29))
+            if (!(start.Hour >= 9 && end.Hour <= 20))
             {
                 ViewBag.Reload = true;
                 ViewBag.ReloadLesson = true;

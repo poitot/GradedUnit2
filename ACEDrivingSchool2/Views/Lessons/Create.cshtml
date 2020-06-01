@@ -33,7 +33,7 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal" style="padding-top:50px">
+    <div class="form-horizontal">
         <h4>Lesson</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -80,8 +80,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btnSubmit" />
-                <a href="javascript:close()">Close</a>
+                <input type="submit" value="Add to Basket" class="btnSubmit" />
+                <input type="button" value="Close" onclick="window.close()" class="btn-info" />
             </div>
         </div>
     </div>
